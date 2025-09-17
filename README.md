@@ -15,4 +15,4 @@ Calculadora **profissional** para web com três módulos:
 - **Teclado físico**: Enter (=), Backspace (⌫), Esc (C).
 - **Acessível**: foco visível, labels, contraste, `aria-label`.
 
-## 📦 Estrutura
+
