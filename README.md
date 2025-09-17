@@ -1,11 +1,21 @@
-# Calculator Pro — Alisense - Marketing e Tecnologia
+# Calculadora de Bases Numéricas  
+Projeto acadêmico/prático desenvolvido para praticar HTML5, CSS3, JavaScript e Bootstrap.  
 
-Calculadora **profissional** para web com três módulos:
-- **Padrão**: operações diárias, memória, parênteses, histórico.
-- **Científica**: trig (Deg/Rad), log/ln, π, e, potências, raiz, fatorial (com extensão Γ), histórico.
-- **Programador**: **conversões entre bin/oct/dec/hex**, largura de palavra (8/16/32/64), assinado/sem sinal (two’s complement), **bitwise** (AND/OR/XOR/NOT/<< >>), teclado adaptável, histórico.
+## Funcionalidades  
+- Conversão entre binário, octal, decimal e hexadecimal  
+- Cálculos matemáticos básicos  
+- Interface responsiva e intuitiva  
 
-> Feita em **HTML5**, **CSS3**, **JavaScript moderno**, **Bootstrap**. Suporte a **PWA** (instalável e com cache offline).
+## Tecnologias  
+- HTML5, CSS3, JavaScript, Bootstrap  
+
+
+## Deploy  
+O projeto está publicado no GitHub Pages: https://marcos-zorzetto.github.io/calculadora-bases/ 
+
+---
+Desenvolvido por Marcos Zorzetto – Estudante de Ciências da Computação  
+
 
 
 
