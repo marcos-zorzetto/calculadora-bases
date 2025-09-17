@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculator Pro — Bases & Científica</title>
+ <link rel="manifest" href="./manifest.webmanifest" />
+<meta name="theme-color" content="#0d6efd" />
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+
+  <meta name="description" content="Calculadora profissional: padrão, científica e programador (bin, oct, dec, hex) com conversões e bitwise." />
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- Bootstrap  -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" />
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1/font/bootstrap-icons.css" />
+
+  <!-- Estilos próprios -->
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <header class="border-bottom">
+    <nav class="navbar container-xxl navbar-expand-lg">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <img src="./assets/favicon.svg" alt="" width="28" height="28" />
+        <span class="fw-semibold">Calculator Pro</span>
+      </a>
+      <div class="ms-auto d-flex align-items-center gap-2">
+        <!-- Alternância de tema -->
+        <button class="btn btn-outline-secondary" id="themeToggle" aria-label="Alternar tema">
+          <i class="bi bi-sun-fill" id="themeIcon"></i>
+        </button>
+        <!-- Info / Sobre -->
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#aboutModal" aria-label="Sobre">
+          <i class="bi bi-info-circle"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container-xxl py-4">
+    <!-- Tabs -->
+    <ul class="nav nav-pills mb-4" id="calcTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="tab-standard" data-bs-toggle="pill" data-bs-target="#pane-standard" type="button" role="tab" aria-controls="pane-standard" aria-selected="true">
+          <i class="bi bi-calculator me-1"></i>Padrão
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-scientific" data-bs-toggle="pill" data-bs-target="#pane-scientific" type="button" role="tab" aria-controls="pane-scientific" aria-selected="false">
+          <i class="bi bi-bezier me-1"></i>Científica
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-programmer" data-bs-toggle="pill" data-bs-target="#pane-programmer" type="button" role="tab" aria-controls="pane-programmer" aria-selected="false">
+          <i class="bi bi-cpu me-1"></i>Programador
+        </button>
+      </li>
+      <li class="ms-auto d-none d-md-block small text-secondary align-self-center">
+        <span class="opacity-75">Atalhos: digite no teclado; Enter = "="; Backspace = Apagar; Esc = C</span>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <!-- PADRÃO -->
+      <section class="tab-pane fade show active" id="pane-standard" role="tabpanel" aria-labelledby="tab-standard">
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="calc-card card shadow-sm">
+              <div class="card-body p-0">
+                <div class="display-area p-3">
+                  <div id="std-history-line" class="small text-secondary text-end text-truncate"></div>
+                  <input id="std-display" class="form-control form-control-lg text-end display-input" type="text" inputmode="none" aria-label="Visor padrão" value="0" readonly />
+                </div>
+                <div class="btn-grid p-2 p-sm-3">
+                  <!-- Linha memória -->
+                  <button data-action="MC" class="btn btn-outline-secondary">MC</button>
+                  <button data-action="MR" class="btn btn-outline-secondary">MR</button>
+                  <button data-action="M+" class="btn btn-outline-secondary">M+</button>
+                  <button data-action="M-" class="btn btn-outline-secondary">M-</button>
+                  <button data-action="MS" class="btn btn-outline-secondary">MS</button>
+
+                  <!-- Linha controle -->
+                  <button data-action="CE" class="btn btn-outline-danger">CE</button>
+                  <button data-action="C"  class="btn btn-outline-danger">C</button>
+                  <button data-action="BS" class="btn btn-outline-secondary"><i class="bi bi-backspace"></i></button>
+                  <button data-input="(" class="btn btn-outline-secondary">(</button>
+                  <button data-input=")" class="btn btn-outline-secondary">)</button>
+
+                  <!-- Operações -->
+                  <button data-fn="inv"  class="btn btn-outline-secondary">1/x</button>
+                  <button data-fn="sqr"  class="btn btn-outline-secondary">x²</button>
+                  <button data-fn="sqrt" class="btn btn-outline-secondary">√x</button>
+                  <button data-op="/"    class="btn btn-outline-primary">÷</button>
+                  <button data-op="%"    class="btn btn-outline-primary">%</button>
+
+                  <!-- Números -->
+                  <button data-num="7" class="btn btn-secondary">7</button>
+                  <button data-num="8" class="btn btn-secondary">8</button>
+                  <button data-num="9" class="btn btn-secondary">9</button>
+                  <button data-op="*"  class="btn btn-outline-primary">×</button>
+                  <button data-fn="sign" class="btn btn-outline-secondary">±</button>
+
+                  <button data-num="4" class="btn btn-secondary">4</button>
+                  <button data-num="5" class="btn btn-secondary">5</button>
+                  <button data-num="6" class="btn btn-secondary">6</button>
+                  <button data-op="-"  class="btn btn-outline-primary">−</button>
+                  <button data-fn="pi" class="btn btn-outline-secondary">π</button>
+
+                  <button data-num="1" class="btn btn-secondary">1</button>
+                  <button data-num="2" class="btn btn-secondary">2</button>
+                  <button data-num="3" class="btn btn-secondary">3</button>
+                  <button data-op="+"  class="btn btn-outline-primary">+</button>
+                  <button data-fn="e"  class="btn btn-outline-secondary">e</button>
+
+                  <button data-num="0" class="btn btn-secondary grid-col-2">0</button>
+                  <button data-dot="."  class="btn btn-secondary">,</button>
+                  <button data-eq="="    class="btn btn-primary grid-col-2">=</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Histórico -->
+          <div class="col-lg-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">Histórico</span>
+                <div class="d-flex gap-2">
+                  <button id="btnCopyHistoryStd" class="btn btn-sm btn-outline-secondary"><i class="bi bi-clipboard"></i></button>
+                  <button id="btnClearHistoryStd" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                <ol id="std-history" class="history-list mb-0"></ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CIENTÍFICA -->
+      <section class="tab-pane fade" id="pane-scientific" role="tabpanel" aria-labelledby="tab-scientific">
+        <div class="row g-4">
+          <div class="col-xl-8">
+            <div class="calc-card card shadow-sm">
+              <div class="card-body p-0">
+                <div class="display-area p-3">
+                  <div id="sci-history-line" class="small text-secondary text-end text-truncate"></div>
+                  <input id="sci-display" class="form-control form-control-lg text-end display-input" type="text" inputmode="none" aria-label="Visor científica" value="0" readonly />
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center px-3 pt-2">
+                  <div class="btn-group" role="group" aria-label="Modo angular">
+                    <input type="radio" class="btn-check" name="angleMode" id="deg" autocomplete="off" checked>
+                    <label class="btn btn-outline-secondary btn-sm" for="deg">Deg</label>
+
+                    <input type="radio" class="btn-check" name="angleMode" id="rad" autocomplete="off">
+                    <label class="btn btn-outline-secondary btn-sm" for="rad">Rad</label>
+                  </div>
+                  <div class="text-secondary small">Use as funções científicas no teclado ou nos botões</div>
+                </div>
+
+                <div class="btn-grid p-2 p-sm-3">
+                  <button data-fn="sin"  class="btn btn-outline-secondary">sin</button>
+                  <button data-fn="cos"  class="btn btn-outline-secondary">cos</button>
+                  <button data-fn="tan"  class="btn btn-outline-secondary">tan</button>
+                  <button data-fn="ln"   class="btn btn-outline-secondary">ln</button>
+                  <button data-fn="log"  class="btn btn-outline-secondary">log</button>
+
+                  <button data-fn="pow"  class="btn btn-outline-secondary">x^y</button>
+                  <button data-fn="sqrt" class="btn btn-outline-secondary">√x</button>
+                  <button data-fn="sqr"  class="btn btn-outline-secondary">x²</button>
+                  <button data-fn="inv"  class="btn btn-outline-secondary">1/x</button>
+                  <button data-fn="fact" class="btn btn-outline-secondary">n!</button>
+
+                  <button data-input="(" class="btn btn-outline-secondary">(</button>
+                  <button data-input=")" class="btn btn-outline-secondary">)</button>
+                  <button data-op="/"    class="btn btn-outline-primary">÷</button>
+                  <button data-op="*"    class="btn btn-outline-primary">×</button>
+                  <button data-op="%"    class="btn btn-outline-primary">%</button>
+
+                  <button data-num="7" class="btn btn-secondary">7</button>
+                  <button data-num="8" class="btn btn-secondary">8</button>
+                  <button data-num="9" class="btn btn-secondary">9</button>
+                  <button data-op="-"  class="btn btn-outline-primary">−</button>
+                  <button data-fn="sign" class="btn btn-outline-secondary">±</button>
+
+                  <button data-num="4" class="btn btn-secondary">4</button>
+                  <button data-num="5" class="btn btn-secondary">5</button>
+                  <button data-num="6" class="btn btn-secondary">6</button>
+                  <button data-op="+"  class="btn btn-outline-primary">+</button>
+                  <button data-fn="pi" class="btn btn-outline-secondary">π</button>
+
+                  <button data-num="1" class="btn btn-secondary">1</button>
+                  <button data-num="2" class="btn btn-secondary">2</button>
+                  <button data-num="3" class="btn btn-secondary">3</button>
+                  <button data-eq="="  class="btn btn-primary grid-col-2">=</button>
+                  <button data-fn="e"  class="btn btn-outline-secondary">e</button>
+
+                  <button data-num="0" class="btn btn-secondary grid-col-2">0</button>
+                  <button data-dot="." class="btn btn-secondary">,</button>
+                  <button data-action="CE" class="btn btn-outline-danger">CE</button>
+                  <button data-action="C"  class="btn btn-outline-danger">C</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Histórico científica -->
+          <div class="col-xl-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">Histórico</span>
+                <div class="d-flex gap-2">
+                  <button id="btnCopyHistorySci" class="btn btn-sm btn-outline-secondary"><i class="bi bi-clipboard"></i></button>
+                  <button id="btnClearHistorySci" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                <ol id="sci-history" class="history-list mb-0"></ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROGRAMADOR -->
+      <section class="tab-pane fade" id="pane-programmer" role="tabpanel" aria-labelledby="tab-programmer">
+        <div class="row g-4">
+          <div class="col-xxl-8">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <div class="row g-3 align-items-end">
+                  <div class="col-md-3">
+                    <label class="form-label">Base ativa</label>
+                    <select id="baseSelect" class="form-select">
+                      <option value="2">Binário (2)</option>
+                      <option value="8">Octal (8)</option>
+                      <option value="10" selected>Decimal (10)</option>
+                      <option value="16">Hexadecimal (16)</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Largura</label>
+                    <select id="wordSize" class="form-select">
+                      <option value="8">8 bits</option>
+                      <option value="16">16 bits</option>
+                      <option value="32" selected>32 bits</option>
+                      <option value="64">64 bits</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Sinal</label>
+                    <select id="signedMode" class="form-select">
+                      <option value="unsigned" selected>Sem sinal</option>
+                      <option value="signed">Com sinal (Two’s complement)</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 text-end">
+                    <button id="btnClearProg" class="btn btn-outline-danger"><i class="bi bi-eraser"></i> Limpar</button>
+                  </div>
+                </div>
+
+                <div class="row g-3 mt-1">
+                  <!-- Campos sincronizados -->
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label">Binário</label>
+                    <div class="input-group">
+                      <input id="binInput" class="form-control mono" placeholder="1010..." />
+                      <button class="btn btn-outline-secondary" data-copy="#binInput"><i class="bi bi-clipboard"></i></button>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label">Octal</label>
+                    <div class="input-group">
+                      <input id="octInput" class="form-control mono" placeholder="17..." />
+                      <button class="btn btn-outline-secondary" data-copy="#octInput"><i class="bi bi-clipboard"></i></button>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label">Decimal</label>
+                    <div class="input-group">
+                      <input id="decInput" class="form-control mono" placeholder="42..." />
+                      <button class="btn btn-outline-secondary" data-copy="#decInput"><i class="bi bi-clipboard"></i></button>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label">Hexadecimal</label>
+                    <div class="input-group">
+                      <input id="hexInput" class="form-control mono" placeholder="2A..." />
+                      <button class="btn btn-outline-secondary" data-copy="#hexInput"><i class="bi bi-clipboard"></i></button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Teclado que se adapta à base -->
+                <div class="btn-grid mt-3" id="progKeypad">
+                  <!-- Dígitos serão (re)gerados dinamicamente conforme base -->
+                </div>
+
+                <div class="row g-3 mt-1">
+                  <div class="col-12 col-lg-6">
+                    <div class="card bg-body-tertiary">
+                      <div class="card-header py-2">Operações bitwise</div>
+                      <div class="card-body">
+                        <div class="row g-2">
+                          <div class="col-6 col-md-3"><button class="btn btn-outline-primary w-100" data-bit="AND">AND</button></div>
+                          <div class="col-6 col-md-3"><button class="btn btn-outline-primary w-100" data-bit="OR">OR</button></div>
+                          <div class="col-6 col-md-3"><button class="btn btn-outline-primary w-100" data-bit="XOR">XOR</button></div>
+                          <div class="col-6 col-md-3"><button class="btn btn-outline-primary w-100" data-bit="NOT">NOT</button></div>
+                          <div class="col-6 col-md-3"><button class="btn btn-outline-primary w-100" data-bit="SHL">&laquo; &laquo;</button></div>
+                          <div class="col-6 col-md-3"><button class="btn btn-outline-primary w-100" data-bit="SHR">&raquo; &raquo;</button></div>
+                          <div class="col-12 col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text">Shift n</span>
+                              <input id="shiftAmount" class="form-control" type="number" min="1" value="1" />
+                              <button class="btn btn-outline-secondary" id="btnApplyShift">Aplicar</button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-3 small text-secondary">
+                          Dica: selecione a <strong>Base ativa</strong>, digite o valor principal pelo teclado/teclado virtual, escolha a operação, e (quando aplicável) informe o operando/shift.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-lg-6">
+                    <div class="card bg-body-tertiary h-100">
+                      <div class="card-header py-2">Operando 2 (quando necessário)</div>
+                      <div class="card-body">
+                        <div class="row g-2">
+                          <div class="col-12">
+                            <input id="progOperandB" class="form-control mono" placeholder="Segundo valor (mesma base ativa)" />
+                          </div>
+                          <div class="col-12 text-end">
+                            <button id="btnApplyBitwise" class="btn btn-primary">Calcular</button>
+                          </div>
+                        </div>
+                        <div class="mt-3 small text-secondary">Usado para AND/OR/XOR. Para NOT, Operand B é ignorado.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Histórico programador -->
+          <div class="col-xxl-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">Histórico (Programador)</span>
+                <div class="d-flex gap-2">
+                  <button id="btnCopyHistoryProg" class="btn btn-sm btn-outline-secondary"><i class="bi bi-clipboard"></i></button>
+                  <button id="btnClearHistoryProg" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                <ol id="prog-history" class="history-list mb-0"></ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-top py-4">
+    <div class="container-xxl d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div class="small opacity-75">© <span id="year"></span> Alisense - Marketing e Tecnologia.</div>
+      <div class="small">
+        <a href="#" class="link-secondary text-decoration-none me-3" data-bs-toggle="modal" data-bs-target="#aboutModal">Sobre</a>
+        <a href="#" class="link-secondary text-decoration-none" id="exportSettings">Exportar configurações</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div id="liveToast" class="toast align-items-center text-bg-dark border-0" role="status" aria-live="polite" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toastMsg">Pronto.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Sobre -->
+  <div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Sobre a aplicação</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2">Calculadora profissional com módulos Padrão, Científica e Programador (bases, bitwise e conversões tempo real).</p>
+          <ul class="mb-0 small">
+            <li>Bootstrap para UI responsiva e acessível.</li>
+            <li>JavaScript moderno (ES2020+), sem dependências extras.</li>
+            <li>Histórico persistente no navegador e tema claro/escuro.</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS + Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- App -->
+  <script src="./assets/app.js" defer></script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch(() => console.warn('SW não registrado.'));
+    });
+  }
+</script>
+
+
+</body>
+</html>
